@@ -13,3 +13,5 @@ Todo:
 - Accessibility
 - Limit size of dropdown to viewport bounds (see the "drop up" example)
 - Support left/right directions
+
+<img width="1244" alt="pr" src="https://github.com/AdamEisfeld/react-dropdown/assets/2840242/a300f130-f5b8-40be-ab4f-2258bd404704">
