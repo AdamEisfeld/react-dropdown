@@ -9,10 +9,12 @@ Features:
 - Tab support / auto-expands on focus
 - Animated expand / collapse
 - Supports "auto" direction which will pick a direction based on available space in the viewport
-- Automatically adjusts dropdown scale to ensure it doesn't extend outside of viewport
+- Automatically adjusts dropdown scale to ensure it doesn't extend outside
 
 Todo:
 - Accessibility
 - Support left/right directions
 
-<img width="1244" alt="pr" src="https://github.com/AdamEisfeld/react-dropdown/assets/2840242/a300f130-f5b8-40be-ab4f-2258bd404704">
+<img width="1403" alt="image" src="https://github.com/AdamEisfeld/react-dropdown/assets/2840242/d1229e78-8bfd-497e-8edf-741c54c05b84">
+
+<img width="1401" alt="image" src="https://github.com/AdamEisfeld/react-dropdown/assets/2840242/06326cb8-ad08-4efe-8bb7-1ade44e380b6">
