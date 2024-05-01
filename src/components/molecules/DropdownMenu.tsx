@@ -15,7 +15,8 @@ export interface DropdownMenuOptionViewModel<ValueType> {
 export interface DropdownMenuProps<ValueType> {
 	className?: string;
 	isExpanded: boolean;
-	direction: "up" | "down";
+	direction: "up" | "down" | "auto";
+	isDirectionAuto?: boolean;
 	options: DropdownMenuOptionViewModel<ValueType>[];
 	selectedOption?: DropdownMenuOptionViewModel<ValueType> | null;
 	placeholderComponent: React.ReactNode;
@@ -51,7 +52,6 @@ const DropdownMenu = <ValueType,>(props: DropdownMenuProps<ValueType>)  => {
 	// MARK: - Event Handlers
 
 	const handleTriggerClick = () => {
-		console.log("handleTriggerClick");
 		if (isExpanded) {
 			onRequestCollapse("didClickRoot");
 		} else {

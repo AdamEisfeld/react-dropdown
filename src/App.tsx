@@ -49,7 +49,8 @@ function App() {
 					<p>A custom dropdown</p>
 					<DropdownMenu
 						className='w-96'
-						direction={"down"}
+						direction={"auto"}
+						isDirectionAuto={true}
 						options={options}
 						selectedOption={selectedOption}
 						placeholderComponent={
@@ -152,7 +153,17 @@ function App() {
 					/>
 				</div>
 				
-				
+			</div>
+			<div className="flex flex-col w-full h-full p-4 bg-gray-100 border border-gray-200">
+				<b>Additional Info:</b>
+				<br />
+				This is some content to demonstrate that the dropdowns do not shift the layout of the page when they are revealed.
+				<br />
+				<br />
+				Notice that the first dropdown's direction is set to "auto". This means that the dropdown will automatically determine whether to reveal above or below the trigger element based on the available space in the viewport. Try resizing the window to see how the dropdowns behave.
+				<br />
+				<br />
+				Also note that the dropdowns auto-resize to ensure they fit within the viewport.
 			</div>
 		</div>
 	)
