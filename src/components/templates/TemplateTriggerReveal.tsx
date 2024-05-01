@@ -101,6 +101,7 @@ const TemplateTriggerReveal = (props: TemplateTriggerRevealProps) => {
 	// Monitor clicks outside of our elementRoot and notify the parent component
 	useEffect(() => {
 
+		
 		if (!onClickOutside || !isRevealed) {
 			return;
 		}
@@ -121,6 +122,8 @@ const TemplateTriggerReveal = (props: TemplateTriggerRevealProps) => {
 
 			onClickOutside(event);
 		}
+
+		window.addEventListener("click", handleWindowClick);
 
 		return () => {
 			window.removeEventListener("click", handleWindowClick);
