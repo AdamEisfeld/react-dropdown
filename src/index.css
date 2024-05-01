@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.relative-element {
+	position: relative;
+}
+
+/* Container Styles */
+.container {
+	display: flex;
+	position: absolute;
+}
+
+.direction-up {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	flex-direction: column-reverse;
+}
+
+.direction-down {
+	top: 0;
+	left: 0;
+	right: 0;
+	flex-direction: column;
+}
+
+/* Trigger Element Styles */
+.trigger-element {
+	display: flex;
+	flex-direction: column;
+	height: auto;
+	width: 100%;
+}
+
+/* Reveal Element Styles */
+.reveal-element {
+	display: flex;
+	overflow: auto;
+	transition: all 0.3s;
+	flex-direction: column;
+	width: 100%;
+}
+
+.reveal-content {
+	display: flex;
+	overflow: visible;
+	flex-direction: column;
+	width: 100%;
+}
