@@ -4,6 +4,14 @@ https://github.com/AdamEisfeld/react-dropdown/assets/2840242/ec509938-9409-4acb-
 
 A small project demonstrating a possible React DropdownMenu component.
 
+Running:
+
+```
+cd path-to-react-dropdown
+npm install
+npm run dev
+```
+
 Features:
 - Custom components can be passed to represent the options / placeholder / reset children of the dropdown
 - Bi-directional display (up or down)
