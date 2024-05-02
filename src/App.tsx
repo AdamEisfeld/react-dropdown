@@ -48,7 +48,9 @@ function App() {
 				<div className="flex flex-col gap-4">
 					<p>A custom dropdown</p>
 					<DropdownMenu
-						className='w-96'
+						containerClassName='rounded-lg w-96 bg-slate-800'
+						placeholderClassName="text-white/80 p-4 transition-all duration-300 hover:bg-white/10 text-white border-t border-white/20 focus:bg-white/10 active:bg-white/10"
+						optionsClassName="p-4 transition-all duration-300 hover:bg-white/10 text-white border-t border-white/20 focus:bg-white/10 active:bg-white/10"
 						direction={"auto"}
 						isDirectionAuto={true}
 						options={options}
@@ -76,7 +78,9 @@ function App() {
 				<div className="flex flex-col gap-4">
 					<p>A fixed-height dropdown</p>
 					<DropdownMenu
-						className='w-96 max-h-48'
+						containerClassName='rounded-lg w-96 max-h-48 bg-rose-500'
+						placeholderClassName="text-white/80 p-4 transition-all duration-300 hover:bg-white/10 text-white border-t border-white/20 focus:bg-white/10 active:bg-white/10"
+						optionsClassName="p-4 transition-all duration-300 hover:bg-white/10 text-white border-t border-white/20 focus:bg-white/10 active:bg-white/10"
 						direction={"down"}
 						options={options}
 						selectedOption={selectedOption}
@@ -103,7 +107,9 @@ function App() {
 				<div className="flex flex-col gap-4">
 					<p>An auto-width dropdown</p>
 					<DropdownMenu
-						className='w-max'
+						containerClassName='rounded-lg w-max bg-lime-500'
+						placeholderClassName="text-black/50 p-4 transition-all duration-300 hover:bg-white/10 text-white border-t border-white/20 focus:bg-white/10 active:bg-white/10"
+						optionsClassName="p-4 transition-all duration-300 hover:bg-white/10 text-white border-t border-white/20 focus:bg-white/10 active:bg-white/10"
 						direction={"down"}
 						options={options}
 						selectedOption={selectedOption}
@@ -130,7 +136,9 @@ function App() {
 				<div className="flex flex-col gap-4">
 					<p>A drop-"up"</p>
 					<DropdownMenu
-						className='w-48'
+						containerClassName='rounded-lg w-48 bg-orange-500'
+						placeholderClassName="text-black/50 p-4 transition-all duration-300 hover:bg-white/10 text-white border-t border-white/20 focus:bg-white/10 active:bg-white/10"
+						optionsClassName="p-4 transition-all duration-300 hover:bg-white/10 text-white border-t border-white/20 focus:bg-white/10 active:bg-white/10"
 						direction={"up"}
 						options={options}
 						selectedOption={selectedOption}

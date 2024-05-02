@@ -13,7 +13,9 @@ export interface DropdownMenuOptionViewModel<ValueType> {
 }
 
 export interface DropdownMenuProps<ValueType> {
-	className?: string;
+	containerClassName?: string;
+	placeholderClassName?: string;
+	optionsClassName?: string;
 	isExpanded: boolean;
 	direction: "up" | "down" | "auto";
 	isDirectionAuto?: boolean;
@@ -41,7 +43,7 @@ export interface DropdownMenuProps<ValueType> {
  */
 const DropdownMenu = <ValueType,>(props: DropdownMenuProps<ValueType>)  => {
 
-	const { direction, isExpanded, selectedOption, placeholderComponent, resetComponent, className, onRequestExpand, onRequestCollapse, onSelectOption } = props;
+	const { direction, isExpanded, selectedOption, placeholderComponent, resetComponent, containerClassName, placeholderClassName, optionsClassName, onRequestExpand, onRequestCollapse, onSelectOption } = props;
 
 	// MARK: - Helpers
 
@@ -89,24 +91,24 @@ const DropdownMenu = <ValueType,>(props: DropdownMenuProps<ValueType>)  => {
 			isRevealed={isExpanded}
 			onClickOutside={handleOutsideClick}
 			containerClassName={`
-				rounded-lg transition-all duration-300 overflow-hidden
+				transition-all duration-300 overflow-hidden
 				${isExpanded ? 'shadow-lg' : ''}
-				${className}
+				${containerClassName}
 			`}
 			trigger={
-				<DropdownMenuWrapperButton onClick={handleTriggerClick}>
+				<DropdownMenuWrapperButton onClick={handleTriggerClick} className={selectedOption ? optionsClassName : placeholderClassName}>
 					{ selectedOption?.component ?? placeholderComponent }
 				</DropdownMenuWrapperButton>
 			}
 			revealing={
 				<div className="flex flex-col">
 					{ resetComponent &&
-						<DropdownMenuWrapperButton onClick={() => handleOptionClick(null)} onFocus={handleOptionFocused}>
+						<DropdownMenuWrapperButton onClick={() => handleOptionClick(null)} onFocus={handleOptionFocused} className={optionsClassName}>
 							{ resetComponent }
 						</DropdownMenuWrapperButton>
 					}
 					{ props.options.map((option) => (
-						<DropdownMenuWrapperButton onClick={() => handleOptionClick(option)} key={option.key} onFocus={handleOptionFocused}>
+						<DropdownMenuWrapperButton onClick={() => handleOptionClick(option)} key={option.key} onFocus={handleOptionFocused} className={optionsClassName}>
 							{ option.component }
 						</DropdownMenuWrapperButton>
 					)) }

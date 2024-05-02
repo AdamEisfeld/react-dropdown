@@ -1,8 +1,7 @@
 import React from "react";
-import { useCallback, useEffect } from "react";
-import { useGetOptimalRevealDirection } from "./useGetOptimalRevealDirection";
+import { useEffect } from "react";
+import { useVerticalSpaceMonitoring } from "./useVerticalSpaceMonitoring";
 import { useMatchElementSize } from "./useMatchElementSize";
-import { useWindowSize } from "./useWindowSize";
 
 interface TemplateTriggerRevealProps {
 	
@@ -32,108 +31,83 @@ const TemplateTriggerReveal = (props: TemplateTriggerRevealProps) => {
 	const elementTrigger = React.useRef<HTMLDivElement>(null);
 	const elementReveal = React.useRef<HTMLDivElement>(null);
 	const elementRevealContent = React.useRef<HTMLDivElement>(null);
-	const [optimalDirection, computeOptimalDirection] = useGetOptimalRevealDirection(elementTrigger);
-	
+	const verticalSpace = useVerticalSpaceMonitoring(elementRoot);
+
 	// MARK: - Effects
 
-	// Always resize our root element to match the size of our trigger
+	// Always resize our root element to match the size of our trigger.
 	useMatchElementSize(elementRoot, elementTrigger);
-
-	// Update the layout of our elementReveal based on the direction and state
-	const updateLayout = useCallback((checkDirection: "up" | "down", state: "in" | "out", elementToResize: HTMLElement, toMatchElement: HTMLElement, attachedToElement: HTMLElement) => {
-		
-		// If we are not revealed, hide our menu by setting our elementReveal's height to 0
-		if (state === "out") {
-			elementToResize.style.height = `0px`;
-			elementToResize.style.width = `auto`;
-			return;
-		}
-
-		const triggerBounds = attachedToElement.getBoundingClientRect();
-		const triggerOrigin = triggerBounds.top;
-		const triggerSize = triggerBounds.height;
-
-		// First, we need to determine the required height to display all of our dropdown options.
-		// We can obtain this by measuring the height of our elementRevealContent ref's element.
-		const contentSize = toMatchElement.offsetHeight || 0;
-		let desiredSize = contentSize;
-
-		// Now we need to determine if the container element around our options would be cut off by the window
-		// if it were set to this height.
-		const windowSize = window.innerHeight;
-
-		if (checkDirection === "up") {
-
-			// If the container would be cut off by the window, we need to adjust the height of our elementReveal
-			// to fit within the window.
-			const edge = triggerOrigin - desiredSize;
-			if (edge < 0) {
-				desiredSize = triggerOrigin;
-			}
-
-		} else {
-
-			// If the container would be cut off by the window, we need to adjust the height of our elementReveal
-			// to fit within the window.
-			const edge = triggerOrigin + triggerSize + desiredSize;
-			if (edge > windowSize) {
-				desiredSize = windowSize - triggerOrigin - triggerSize;
-			}
-
-		}
-
-		// Set our elementReveal's height to the desired height
-		elementToResize.style.height = `${desiredSize}px`;
-
-	}, []);
 	
-	// Monitor window resize events to update our layout and recompute our direction if it is set to "auto"
-	const windowSize = useWindowSize();
-	useEffect(() => {
-		if (direction === "auto") {
-			computeOptimalDirection();
-			updateLayout(optimalDirection, isRevealed ? "in" : "out", elementReveal.current!, elementRevealContent.current!, elementTrigger.current!);
-		} else {
-			updateLayout(direction, isRevealed ? "in" : "out", elementReveal.current!, elementRevealContent.current!, elementTrigger.current!);
-		}
-	}, [windowSize, isRevealed, updateLayout, direction, computeOptimalDirection, optimalDirection]);
-
-	// Monitor clicks outside of our elementRoot and notify the parent component
+	// Recompute the layout (our elementReveal's size) when:
+	// - The dropdown is revealed or hidden
+	// - The direction is modified
+	// - The available space above or below the trigger is modified
+	// - The optimal direction to reveal the dropdown is modified
 	useEffect(() => {
 
-		
-		if (!onClickOutside || !isRevealed) {
+		if (!elementReveal.current || !elementRevealContent.current) {
 			return;
 		}
 
-		const handleWindowClick = (event: MouseEvent) => {
-			
-			const target = event.target as HTMLElement;
-			
-			if (!elementRoot.current) {
-				// We need our root element to detect if we are clicking outside of it
+		// If we aren't revealed, we can just set our content's size to 0 and exit early.
+		if (!isRevealed) {
+			elementReveal.current.style.height = `0px`;
+			return;
+		}
+
+		// The maximum space required to reveal our content
+		const requiredSpace = elementRevealContent.current.offsetHeight;
+		
+		// Set the height of our reveal element based on the direction / available space
+		switch (direction) {
+			case "auto":
+				switch (verticalSpace.optimalDirection) {
+					case "up":
+						elementReveal.current.style.height = `${Math.min(requiredSpace, verticalSpace.availableSpaceAbove)}px`;
+						break;
+					case "down":
+						elementReveal.current.style.height = `${Math.min(requiredSpace, verticalSpace.availableSpaceBelow)}px`;
+						break;
+				}
+				break;
+			case "up":
+				elementReveal.current.style.height = `${Math.min(requiredSpace, verticalSpace.availableSpaceAbove)}px`;
+				break;
+			case "down":
+				elementReveal.current.style.height = `${Math.min(requiredSpace, verticalSpace.availableSpaceBelow)}px`;
+				break;
+		}
+
+	}, [isRevealed, direction, verticalSpace]);
+
+	// Handle clicks outside of our root element
+	useEffect(() => {
+
+		const handleClick = (event: MouseEvent) => {
+
+			if (!elementRoot.current || !isRevealed || !onClickOutside) {
 				return;
 			}
 
-			if (elementRoot.current.contains(target)) {
-				// The click was inside our root element, ignore it
+			if (elementRoot.current.contains(event.target as Node)) {
 				return;
 			}
 
 			onClickOutside(event);
+
 		}
 
-		window.addEventListener("click", handleWindowClick);
+		window.addEventListener('click', handleClick);
 
 		return () => {
-			window.removeEventListener("click", handleWindowClick);
+			window.removeEventListener('click', handleClick);
 		}
 
-	}, [isRevealed, onClickOutside]);
-
+	}, [isRevealed, onClickOutside, elementRoot]);
+	
 	// MARK: - Computed State
 
-	const directionToUse = direction === "auto" ? optimalDirection : direction;
+	const directionToUse = direction === "auto" ? verticalSpace.optimalDirection : direction;
 
 	// MARK: - Component
 	
