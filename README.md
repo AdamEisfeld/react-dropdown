@@ -1,5 +1,7 @@
 # React Dropdowns
 
+https://github.com/AdamEisfeld/react-dropdown/assets/2840242/ec509938-9409-4acb-9f7a-98f6847634a6
+
 A small project demonstrating a possible React DropdownMenu component.
 
 Features:
@@ -19,5 +21,4 @@ Todo:
 
 <img width="1401" alt="image" src="https://github.com/AdamEisfeld/react-dropdown/assets/2840242/06326cb8-ad08-4efe-8bb7-1ade44e380b6">
 
-https://github.com/AdamEisfeld/react-dropdown/assets/2840242/ec509938-9409-4acb-9f7a-98f6847634a6
 
